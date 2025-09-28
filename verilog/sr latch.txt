@@ -1,0 +1,24 @@
+module sr_latch(
+  input  wire s, r,
+  output reg  q, q_not
+);
+
+  always @(*) begin
+    if (s==0 && r==0) begin
+      // Hold state: no assignment, q and q_not keep previous values
+    end
+    else if (s==0 && r==1) begin
+      q     = 0;
+      q_not = 1;
+    end
+    else if (s==1 && r==0) begin
+      q     = 1;
+      q_not = 0;
+    end
+    else begin
+      q     = 1'bx;  // Invalid condition
+      q_not = 1'bx;
+    end
+  end
+
+endmodule
