@@ -1,0 +1,29 @@
+module tb_shift_reg_siso;
+  reg clk, rstn, sdi;
+  wire sdo;
+  shift_reg_siso dut (
+    .clk(clk),
+    .rstn(rstn),
+    .sdi(sdi),
+    .sdo(sdo)
+  );
+  initial begin
+    clk = 0;
+    forever #5 clk = ~clk;
+  end
+  initial begin
+    $display("Time\tclk\trstn\tsdi\tsdo");
+    $monitor("%0t\t%b\t%b\t%b\t%b", $time, clk, rstn, sdi, sdo);
+  end
+  initial begin
+    rstn = 0; sdi = 0;
+    #12; rstn = 1;  
+    sdi = 1;
+    sdi = 0;
+    sdi = 1;
+    sdi = 1;
+    sdi = 0;
+    sdi = 1;
+    #50; $finish;
+  end
+endmodule
