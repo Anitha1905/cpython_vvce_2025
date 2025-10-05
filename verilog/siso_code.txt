@@ -1,0 +1,16 @@
+module shift_reg_siso (
+  input  clk,
+  input  rstn, 
+  input  sdi,
+  output reg sdo
+);
+  reg [3:0] q;
+
+  always @(posedge clk or negedge rstn) begin
+    if (!rstn)
+      q<= 4'b0000;
+    else
+      q<= {q[2:0], sdi}; 
+  end
+  assign sdo=q[3];
+endmodule
