@@ -1,0 +1,42 @@
+module tb_pipo_shift_reg;
+    reg clk;
+    reg rstn;
+    reg load;
+  reg [3:0] d;
+  wire [3:0] q;
+    shift_reg_pipo dut (
+        .clk(clk),
+        .rstn(rstn),
+        .load(load),
+         .d(d),
+         .q(q)
+    );
+
+    // Clock generation: 10 time units period
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;
+    end
+
+    initial begin
+        rstn = 0;
+        load = 0;
+        d = 4'b0000;
+        #10 rstn = 1;
+        #10 d = 4'b1010;
+        load = 1;
+        #10 load = 0;
+        #20 d = 4'b1101;
+        load = 1;
+        #10 load = 0;
+        #30 $stop;
+    end
+    initial begin
+        $monitor("Time=%0t clk=%b rstn=%b load=%b parallel_in=%b parallel_out=%b",
+                 $time, clk, rstn, load, d, q);
+    end
+  initial begin 
+    $dumpfile("dump.vcd");
+    $dumpvars(0,tb_pipo_shift_reg);
+  end
+endmodule
