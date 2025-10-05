@@ -1,0 +1,30 @@
+module tb_shift_reg_sipo;
+  reg rstn;
+  reg clk;
+  reg sdi;
+  wire [3:0]q;
+  shift_reg_sipo dut ( .rstn(rstn), .clk(clk), .sdi(sdi), .q(q));
+  initial begin
+    clk=0;
+forever #5 clk=~clk;
+  end
+  initial begin
+    $monitor($time ,"rstn=%b,clk=%b,sdi=%b,q=%b",rstn,clk,sdi,q);
+  end
+  initial begin
+ #10;rstn=0;sdi=0;
+ #10; rstn=1;
+ #10; sdi=0;
+ #10; sdi=1;
+ #10; sdi=1;
+  #10;sdi=0;
+ #10; sdi=0;
+    #10; $finish ;
+  end
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(0,tb_shift_reg_sipo);
+  end
+endmodule
+    
+  
