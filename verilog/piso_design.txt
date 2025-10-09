@@ -1,0 +1,16 @@
+module piso_shift_reg(
+  input clk,
+  input load,
+  input [3:0]d,
+  output reg sdo
+);
+  reg [3:0] temp_reg;
+  always @(posedge clk)begin
+    if (load)
+      temp_reg<=d;
+    else begin
+      sdo<=temp_reg[3];
+      temp_reg<={temp_reg[2:0], 1'b0};
+    end
+  end
+endmodule
