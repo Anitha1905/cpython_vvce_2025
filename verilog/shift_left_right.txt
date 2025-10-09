@@ -1,0 +1,19 @@
+module left_right_load_reg(
+  input clk,
+  input rstn,
+  input load,
+  input shift_left_right,
+  input [7:0]i,
+  output reg [7:0]q
+);
+  always @(posedge clk or negedge rstn) begin
+    if(!rstn)
+      q<=8'b00000000;
+    else if(load)
+      q<=i;
+    else if(shift_left_right) //left
+      q<={q[6:0],1'b0};
+    else
+      q<={1'b0,q[7:1]}; //right
+  end
+endmodule
