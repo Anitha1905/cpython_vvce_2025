@@ -1,0 +1,39 @@
+module updown_counter_tb;
+  parameter N = 4;
+  reg clk;
+  reg rstn;
+  reg load_en;
+  reg up_down;
+  reg [N-1:0] counter_in;
+  wire [N-1:0] counter_out;
+
+  up_down_counter #(.N(N)) dut (.clk(clk), .rstn(rstn), .load_en(load_en), .up_down(up_down), .counter_in(counter_in), .counter_out(counter_out));
+
+  // Clock generation
+  initial begin
+    clk = 0;
+    forever #5 clk = ~clk;
+  end
+
+  // Test stimuli
+  initial begin
+    rstn = 0; load_en = 0; up_down = 1; counter_in = 4'b1010;
+    #10 rstn = 1;
+    #10 load_en = 1;
+    #10 load_en = 0;
+    #10
+    repeat (4) begin
+      #10 up_down = 1; // Count up
+    end
+    repeat (4) begin
+      #10 up_down = 0; // Count down
+    end
+    #20 $finish;
+  end
+
+  // Monitor outputs continuously
+  initial begin
+    $monitor("%0t clk=%b, load_en=%b, rstn=%b, up_down=%b, counter_in=%b, counter_out=%b",
+             $time, clk, load_en, rstn, up_down, counter_in, counter_out);
+  end
+endmodule
