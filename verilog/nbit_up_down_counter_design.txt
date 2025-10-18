@@ -1,0 +1,23 @@
+module up_down_counter
+  #(parameter N=4)
+  (
+    input clk,
+    input rstn,
+    input load_en,
+    input up_down,
+    input [N-1:0]counter_in,
+    output reg  [N-1:0] counter_out
+  );
+  always @(posedge clk or negedge rstn)begin
+    if(!rstn)
+      counter_out<=0;
+    else if(load_en)
+      counter_out<=counter_in;
+    else begin
+      if(up_down==1)
+        counter_out<=counter_out+1'b1;
+      else
+        counter_out<=counter_out-1'b1;
+    end
+  end
+endmodule
