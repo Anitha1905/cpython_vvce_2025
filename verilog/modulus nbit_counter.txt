@@ -1,0 +1,21 @@
+module nbit_modulus_counter
+  #(parameter N=10,
+    parameter CNT_WIDTH=4)
+  (
+    input clk,
+    input rstn,
+    input enable,
+    output reg [N-1:0]counter_out
+  );
+  always @(posedge clk or negedge rstn)begin
+    if(!rstn)
+      counter_out<=0;
+    else if(enable) begin
+      if(counter_out==(N-1))begin
+        counter_out<=0;
+        end else
+          counter_out<=counter_out+1'b1;
+        end
+    end
+    endmodule
+      
