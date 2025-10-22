@@ -1,0 +1,22 @@
+
+module n_bit_clock_divider #(
+    parameter N = 8
+)(
+    input wire clk_in,
+    input wire reset,
+    output reg clk_out
+);
+
+reg [N-1:0] counter = 0;
+
+always @(posedge clk_in) begin
+    if (reset) begin
+        counter <= 0;
+        clk_out <= 0;
+    end else begin
+        counter <= counter + 1;
+        clk_out <= counter[N-1];
+    end
+end
+
+endmodule
